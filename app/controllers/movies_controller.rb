@@ -2,7 +2,10 @@ class MoviesController < ApplicationController
   def new
     @the_movie = Movie.new
 
-    render template: "movies/new"
+    # We don’t actually need `template` because if you pass the render method a single string argument, it assumes that is a view template!
+    #   render template: "movies/new"
+    # If the folder name that the view templates are located inside of matches the name of the controller, and if the action name matches the name of the template, we can just get rid of the whole string
+    #    render "movies/new"
   end
 
   def index
@@ -16,7 +19,6 @@ class MoviesController < ApplicationController
       end
 
       format.html do
-        render :template => "movies/index" 
       end
     end
   end
@@ -27,8 +29,6 @@ class MoviesController < ApplicationController
     matching_movies = Movie.where(:id => the_id)
 
     @the_movie = matching_movies.first
-
-    render :template => "movies/show"
   end
 
   def create
@@ -51,8 +51,6 @@ class MoviesController < ApplicationController
     matching_movies = Movie.where(:id => the_id)
 
     @the_movie = matching_movies.first
-
-    render :template => "movies/edit"
   end
 
   def update
