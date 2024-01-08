@@ -4,6 +4,7 @@
   <p style="color: red;"><%= message %></p>
 <% end %>
 
+<%# form_with by default sets the form to `post` %>
 <%= form_with(url: movies_path, data: { turbo: false }) do %>
   <div>
     <%# The first argument for a link_to tag is the `for=""` attribute, and the second argument is the copy we want shown %>
