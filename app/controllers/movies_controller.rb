@@ -9,13 +9,11 @@ class MoviesController < ApplicationController
   end
 
   def index
-    matching_movies = Movie.all
-
-    @list_of_movies = matching_movies.order(:created_at => :desc)
+    @movies = Movie.order(created_at: :desc)
 
     respond_to do |format|
       format.json do
-        render json: @list_of_movies
+        render json: @movies
       end
 
       format.html do
@@ -24,20 +22,22 @@ class MoviesController < ApplicationController
   end
 
   def show
-    the_id = params.fetch(:id)
+    # the `find_by` method does what the `where` method does except it automatically finds the first record
+    # it will also return `nil` if the id isn't found
+    # @the_movie = Movie.find_by(id: params.fetch(:id))
 
-    matching_movies = Movie.where(:id => the_id)
-
-    @the_movie = matching_movies.first
+    # the `find` method only takes integers and assumes you are searching in the ID column
+    # this method also returns a 404 page if the ID doesn't exist, which is the correct behavior instead of a 500 page from returning `nil`
+    @movie = Movie.find(params.fetch(:id))
   end
 
   def create
-    @the_movie = Movie.new
-    @the_movie.title = params.fetch("query_title")
-    @the_movie.description = params.fetch("query_description")
+    @movie = Movie.new
+    @movie.title = params.fetch("query_title")
+    @movie.description = params.fetch("query_description")
 
-    if @the_movie.valid?
-      @the_movie.save
+    if @movie.valid?
+      @movie.save
       # we should only use paths on the client facing view templates, but when we’re sending responses back, we should use the fully qualified URL, including the domain name
       redirect_to movies_url, :notice => "Movie created successfully."
     else
@@ -46,33 +46,27 @@ class MoviesController < ApplicationController
   end
 
   def edit
-    the_id = params.fetch(:id)
-
-    matching_movies = Movie.where(:id => the_id)
-
-    @the_movie = matching_movies.first
+    @movie = Movie.find(params.fetch(:id))
   end
 
   def update
-    the_id = params.fetch(:id)
-    the_movie = Movie.where(:id => the_id).first
+    movie = Movie.find(params.fetch(:id))
 
-    the_movie.title = params.fetch("query_title")
-    the_movie.description = params.fetch("query_description")
+    movie.title = params.fetch("query_title")
+    movie.description = params.fetch("query_description")
 
-    if the_movie.valid?
-      the_movie.save
-      redirect_to movie_url(the_movie), :notice => "Movie updated successfully."
+    if movie.valid?
+      movie.save
+      redirect_to movie_url(movie), :notice => "Movie updated successfully."
     else
-      redirect_to movie_url(the_movie), :alert => "Movie failed to update successfully."
+      redirect_to movie_url(movie), :alert => "Movie failed to update successfully."
     end
   end
 
   def destroy
-    the_id = params.fetch(:id)
-    the_movie = Movie.where(:id => the_id).first
+    movie = Movie.find(params.fetch(:id))
 
-    the_movie.destroy
+    movie.destroy
 
     redirect_to movies_url, :notice => "Movie deleted successfully."
   end
