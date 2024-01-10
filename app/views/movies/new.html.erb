@@ -1,26 +1,38 @@
 <h1>New movie</h1>
 
+<%# @movies draws errors collection, but we can also use this to tell the `form_with(model:)` that we want to create this new empty movie object %>
 <% @movie.errors.full_messages.each do |message| %>
   <p style="color: red;"><%= message %></p>
 <% end %>
 
 <%# form_with by default sets the form to `post` %>
-<%= form_with(url: movies_path(@movie), data: { turbo: false }) do %>
+<%# If we’re making a form for the specific purpose of creating a record in our database table or updating a record with ActiveRecord, we use `form_with(model: ...)` instead of `form_with(url: ...)` %>
+<%# The argument for `form_with(model:)` should be the object itself %>
+<%# Rails assumes that there is a route called @movie.class.downcase (i.e. movie) that is an alias for "/movies", and it can then call movie_url and find the action associated with that route %>
+<%= form_with(model: @movie, data: { turbo: false }) do |form| %>
   <div>
     <%# The first argument for a link_to tag is the `for=""` attribute, and the second argument is the copy we want shown %>
     <%# Leaving out the first argument, will populate the `for` attribute with the same argument as the second argument, and vice versa will call `.capitalize` on the first argument to prepopulate the second argument %>
-    <%= label_tag :title %>
+    <%# `form` has its own methods like `label`, `text_area`, etc. %>
+    <%# Because `form` is associated with @movie (an instance of `Movie`), we can drop @movie.title and @movie.description %>
+    <%#= label_tag :title %>
+    <%= form.label :title %>
 
     <%# The first argument for the text_field_tag is the `name` attribute, the second argument is the value %>
     <%# The `id` attribute prefills with whatever you used as the argument for the `name` attribute, otherwise we can add it as a third argument %>
-    <%= text_field_tag "movie[title]", @movie.title, { id: "Title" } %>
+    <%#= text_field_tag "movie[title]", @movie.title %>
+    <%= form.text_field :title %>
   </div>
 
   <div>
-    <%= label_tag :description %>
+    <%#= label_tag :description %>
+    <%= form.label :description %>
 
-    <%= text_area_tag "movie[description]", @movie.description, { id: "Description", rows: 3 } %>
+    <%#= text_area_tag "movie[description]", @movie.description, { rows: 3 } %>
+    <%= form.text_area :description, { rows: 3 } %>
   </div>
 
-  <%= button_tag "Create Movie" %>
+  <%# Rails will check that the object does not exist in the database yet, so it will choose the copy “Create Movie” for us %>
+  <%#= button_tag "Create Movie" %>
+  <%= form.button %>
 <% end %>
