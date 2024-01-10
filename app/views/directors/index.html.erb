@@ -1,0 +1,74 @@
+<h1>
+  List of all directors
+</h1>
+
+<hr>
+
+<div>
+  <%= link_to 'Add a new director', new_director_path %>
+</div>
+
+<hr>
+
+<table>
+  <tr>
+    <th>
+      ID
+    </th>
+
+    <th>
+      Name
+    </th>
+
+    <th>
+      Date of Birth
+    </th>
+
+    <th>
+      Bio
+    </th>
+
+    <th>
+      Created at
+    </th>
+
+    <th>
+      Updated at
+    </th>
+
+    <th>
+    </th>
+  </tr>
+
+  <% @directors.each do |a_director| %>
+    <tr>
+      <td>
+        <%= a_director.id %>
+      </td>
+
+      <td>
+        <%= a_director.name %>
+      </td>
+
+      <td>
+        <%= a_director.dob %>
+      </td>
+
+      <td>
+        <%= a_director.bio %>
+      </td>
+
+      <td>
+        <%= a_director.created_at %>
+      </td>
+
+      <td>
+        <%= a_director.updated_at %>
+      </td>
+
+      <td>
+        <%= link_to 'Show details', a_director %>
+      </td>
+    </tr>
+  <% end %>
+</table>
