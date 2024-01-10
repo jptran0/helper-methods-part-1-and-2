@@ -13,7 +13,7 @@
   <div>
     <%# The first argument for a link_to tag is the `for=""` attribute, and the second argument is the copy we want shown %>
     <%# Leaving out the first argument, will populate the `for` attribute with the same argument as the second argument, and vice versa will call `.capitalize` on the first argument to prepopulate the second argument %>
-    <%# `form` has its own methods like `label`, `text_area`, etc. %>
+    <%# the form builder object has its own methods like `label`, `text_area`, etc. %>
     <%# Because `form` is associated with @movie (an instance of `Movie`), we can drop @movie.title and @movie.description %>
     <%#= label_tag :title %>
     <%= form.label :title %>
