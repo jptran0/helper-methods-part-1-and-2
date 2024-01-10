@@ -1,21 +1,21 @@
 <h1>Edit movie</h1>
 
-<% @the_movie.errors.full_messages.each do |message| %>
+<% @movie.errors.full_messages.each do |message| %>
   <p style="color: red;"><%= message %></p>
 <% end %>
 
 <%# form_with defaults to `post`, we can change the HTTP verb by passing in the `method:` argument %>
-<%= form_with(url: movie_path(@the_movie), method: :patch, data: { tubro: false }) do %>
+<%= form_with(url: movie_path(@movie), method: :patch, data: { tubro: false }) do %>
   <div>
-    <%= label_tag :title_box, "Title" %>
+    <%= label_tag :title %>
 
-    <%= text_field_tag :query_title, @the_movie.title, { id: "title_box" } %>
+    <%= text_field_tag :title, @movie.title %>
   </div>
 
   <div>
-    <%= label_tag :description_box, "Description" %>
+    <%= label_tag :description %>
 
-    <%= text_area_tag :query_description, @the_movie.description, { id: "description_box", rows: 3 } %>
+    <%= text_area_tag :description, @movie.description, { rows: 3 } %>
   </div>
 
   <%= button_tag "Update Movie" %>
