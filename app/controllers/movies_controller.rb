@@ -1,6 +1,6 @@
 class MoviesController < ApplicationController
   def new
-    @the_movie = Movie.new
+    @movie = Movie.new
 
     # We don’t actually need `template` because if you pass the render method a single string argument, it assumes that is a view template!
     #   render template: "movies/new"
@@ -33,8 +33,8 @@ class MoviesController < ApplicationController
 
   def create
     @movie = Movie.new
-    @movie.title = params.fetch("query_title")
-    @movie.description = params.fetch("query_description")
+    @movie.title = params.fetch(:title)
+    @movie.description = params.fetch(:description)
 
     if @movie.valid?
       @movie.save
@@ -52,8 +52,8 @@ class MoviesController < ApplicationController
   def update
     movie = Movie.find(params.fetch(:id))
 
-    movie.title = params.fetch("query_title")
-    movie.description = params.fetch("query_description")
+    movie.title = params.fetch(:title)
+    movie.description = params.fetch(:description)
 
     if movie.valid?
       movie.save
