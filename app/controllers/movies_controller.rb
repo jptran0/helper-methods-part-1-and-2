@@ -32,9 +32,10 @@ class MoviesController < ApplicationController
   end
 
   def create
-    @movie = Movie.new
-    @movie.title = params.fetch(:title)
-    @movie.description = params.fetch(:description)
+    # the `.new` method iterates through the key value pairs and assign the values to the matching column
+    # Because of Rail's extra security, we have to `.require` instead of `.fetch` and then we have to `.permit` 
+    movie_attributes = params.require(:movie).permit(:title, :description)
+    @movie = Movie.new(movie_attributes)
 
     if @movie.valid?
       @movie.save
@@ -50,16 +51,16 @@ class MoviesController < ApplicationController
   end
 
   def update
-    movie = Movie.find(params.fetch(:id))
+    @movie = Movie.find(params.fetch(:id))
 
-    movie.title = params.fetch(:title)
-    movie.description = params.fetch(:description)
+    movie_attributes = params.require(:movie).permit(:title, :description)
+    @movie.update(movie_attributes)
 
-    if movie.valid?
-      movie.save
-      redirect_to movie_url(movie), :notice => "Movie updated successfully."
+    if @movie.valid?
+      @movie.save
+      redirect_to movie_url(@movie), :notice => "Movie updated successfully."
     else
-      redirect_to movie_url(movie), :alert => "Movie failed to update successfully."
+      redirect_to movie_url(@movie), :alert => "Movie failed to update successfully."
     end
   end
 
