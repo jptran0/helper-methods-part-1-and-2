@@ -13,13 +13,13 @@
 
     <%# The first argument for the text_field_tag is the `name` attribute, the second argument is the value %>
     <%# The `id` attribute prefills with whatever you used as the argument for the `name` attribute, otherwise we can add it as a third argument %>
-    <%= text_field_tag :title, @movie.title %>
+    <%= text_field_tag "movie[title]", @movie.title, { id: "Title" } %>
   </div>
 
   <div>
     <%= label_tag :description %>
 
-    <%= text_area_tag :description, @movie.description, { rows: 3 } %>
+    <%= text_area_tag "movie[description]", @movie.description, { id: "Description", rows: 3 } %>
   </div>
 
   <%= button_tag "Create Movie" %>
