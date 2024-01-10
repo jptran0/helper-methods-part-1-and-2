@@ -40,7 +40,7 @@ class MoviesController < ApplicationController
     if @movie.valid?
       @movie.save
       # we should only use paths on the client facing view templates, but when we’re sending responses back, we should use the fully qualified URL, including the domain name
-      redirect_to movies_url, :notice => "Movie created successfully."
+      redirect_to movies_url, notice: "Movie created successfully."
     else
       render template: "movies/new"
     end
@@ -58,9 +58,9 @@ class MoviesController < ApplicationController
 
     if @movie.valid?
       @movie.save
-      redirect_to movie_url(@movie), :notice => "Movie updated successfully."
+      redirect_to movie_url(@movie), notice: "Movie updated successfully."
     else
-      redirect_to movie_url(@movie), :alert => "Movie failed to update successfully."
+      redirect_to movie_url(@movie), alert: "Movie failed to update successfully."
     end
   end
 
